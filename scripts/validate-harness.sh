@@ -49,6 +49,7 @@ templates/agent.template.md
 templates/skill.template.md
 templates/settings.template.json
 examples/README.md
+personal-skills/README.md
 "
 for f in $required; do
   if [ -f "$f" ]; then pass "$f"; else fail "missing: $f"; fi
@@ -88,13 +89,16 @@ for f in .claude/agents/*.md; do
 done
 [ "$agent_count" -gt 0 ] && pass "$agent_count agent(s)"
 
-echo
-echo "== skills =="
 # Built-in skill names this harness must not shadow. See docs/skill-design.md.
 builtin_skills="code-review security-review simplify init run loop schedule design dataviz"
-skill_count=0
-for d in .claude/skills/*/; do
-  [ -e "$d" ] || { fail "no skill directories found in .claude/skills/"; break; }
+
+# Lints every <root>/*/SKILL.md. Used for the project skills copied into adopting repositories and
+# for the personal skills installed to ~/.claude/skills — both must hold the same shape.
+lint_skills() {
+  root="$1"
+  skill_count=0
+  for d in "$root"/*/; do
+  [ -e "$d" ] || { fail "no skill directories found in $root/"; break; }
   skill_count=$((skill_count + 1))
   base=$(basename "$d")
   f="${d}SKILL.md"
@@ -120,8 +124,31 @@ for d in .claude/skills/*/; do
     grep -q "^$section" "$f" || fail "$f: missing section '$section'"
   done
   pass "$f ($name)"
+  done
+  [ "$skill_count" -gt 0 ] && pass "$skill_count skill(s) in $root"
+  return 0
+}
+
+echo
+echo "== project skills =="
+lint_skills .claude/skills
+
+echo
+echo "== personal skills =="
+# Operator skills, installed to ~/.claude/skills. Kept out of .claude/skills because that directory
+# is copied wholesale into adopting projects. See personal-skills/README.md.
+lint_skills personal-skills
+for d in personal-skills/*/; do
+  [ -e "$d" ] || continue
+  f="${d}SKILL.md"
+  [ -f "$f" ] || continue
+  # Supporting files are only useful if the SKILL.md actually points at them.
+  for sup in "$d"*.md; do
+    supbase=$(basename "$sup")
+    [ "$supbase" = "SKILL.md" ] && continue
+    grep -q "$supbase" "$f" || warn "$f: does not reference its supporting file $supbase"
+  done
 done
-[ "$skill_count" -gt 0 ] && pass "$skill_count skill(s)"
 
 echo
 echo "== no project-specific commands in the harness =="
