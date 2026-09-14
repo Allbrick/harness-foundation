@@ -1,0 +1,15 @@
+# IDE / editor state
+.idea/
+.vscode/
+*.iml
+
+# Build output declared by .idea (nothing builds here yet, but keep it ignored)
+out/
+
+# Local agent/plugin state that must never be committed
+.bkit/
+.claude/settings.local.json
+
+# OS noise
+.DS_Store
+Thumbs.db
