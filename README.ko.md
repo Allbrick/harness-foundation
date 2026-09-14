@@ -114,6 +114,16 @@ Context는 "언젠가 중요할지 모르는 모든 것"이 아니라 "지금 �
 | [`test`](.claude/skills/test/SKILL.md) | 실제 테스트 환경을 먼저 탐색. 명령을 지어내지 않음 |
 | [`commit`](.claude/skills/commit/SKILL.md) | diff 분석, 논리적 그룹화, Conventional Commits |
 
+### Personal Skills — [`personal-skills/README.md`](personal-skills/README.md)
+
+Harness *자체를* 다루는 Skill입니다. 대상 프로젝트에 들어가기 전에 있어야 하므로 `~/.claude/skills/`에
+설치해 모든 로컬 저장소에서 쓸 수 있게 합니다.
+
+| Skill | 목적 |
+| --- | --- |
+| [`adopt-harness`](personal-skills/adopt-harness/SKILL.md) | 기존 상태 조사 → 증거 기반으로 저장소 재구성 → 검증된 project profile 작성 → 각 발견을 강제 가능한 계층에 배치 |
+| [`audit-harness`](personal-skills/audit-harness/SKILL.md) | 저장소와 그것을 설명하는 Harness 사이의 drift 탐지 — 낡은 명령, 교체된 아키텍처, 더 이상 작동하지 않는 guardrail |
+
 ### Workflow — [`docs/workflow.md`](docs/workflow.md)
 
 ```text
@@ -133,6 +143,13 @@ cp -r <path-to>/harness-foundation/.claude/agents .claude/agents
 cp -r <path-to>/harness-foundation/.claude/skills .claude/skills
 cp    <path-to>/harness-foundation/templates/settings.template.json .claude/settings.json
 cp    <path-to>/harness-foundation/templates/CLAUDE.template.md CLAUDE.md   # 이후 채워 넣기
+```
+
+또는 `adopt-harness`를 한 번 설치해두고 증거 기반으로 대신 시킬 수 있습니다:
+
+```bash
+cp -r personal-skills/adopt-harness personal-skills/audit-harness ~/.claude/skills/
+# 이후 대상 프로젝트에서:  /adopt-harness
 ```
 
 그다음 `CLAUDE.md`를 **그 저장소의 실제 증거로부터** 채웁니다 — 스택은 manifest와 lockfile에서, 명령은
@@ -183,6 +200,7 @@ placeholder는 지웁니다. **지어낸 명령은 빠진 명령보다 나쁩니
 CLAUDE.md            항상 로드되는 운영 원칙
 .claude/             agents, skills, 권한 정책 (정본 정의)
 docs/                설계 근거 — 자동 로드되지 않고 필요할 때만
+personal-skills/     Harness 도입·감사를 위한 운영자 Skill
 templates/           프로젝트 · Agent · Skill의 출발점
 examples/            실제 도입 walkthrough
 scripts/             의존성 없는 구조 자체 검증

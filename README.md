@@ -114,6 +114,16 @@ instruction**. "Cannot" beats "should not".
 | [`test`](.claude/skills/test/SKILL.md) | Discover the real test setup first; never invent a command |
 | [`commit`](.claude/skills/commit/SKILL.md) | Diff analysis, logical grouping, Conventional Commits |
 
+### Personal skills — [`personal-skills/README.md`](personal-skills/README.md)
+
+Skills that operate *on* harnesses, installed to `~/.claude/skills/` so they are available before you
+enter a target project:
+
+| Skill | Purpose |
+| --- | --- |
+| [`adopt-harness`](personal-skills/adopt-harness/SKILL.md) | Survey what exists, reconstruct the repository from evidence, write a verified project profile, then route each finding to the layer that can enforce it |
+| [`audit-harness`](personal-skills/audit-harness/SKILL.md) | Detect drift between a repository and the harness describing it — stale commands, superseded architecture, guardrails that no longer bind |
+
 ### Workflow — [`docs/workflow.md`](docs/workflow.md)
 
 ```text
@@ -133,6 +143,13 @@ cp -r <path-to>/harness-foundation/.claude/agents .claude/agents
 cp -r <path-to>/harness-foundation/.claude/skills .claude/skills
 cp    <path-to>/harness-foundation/templates/settings.template.json .claude/settings.json
 cp    <path-to>/harness-foundation/templates/CLAUDE.template.md CLAUDE.md   # then fill it in
+```
+
+Or install `adopt-harness` once and let it do this on evidence:
+
+```bash
+cp -r personal-skills/adopt-harness personal-skills/audit-harness ~/.claude/skills/
+# then, in the target project:  /adopt-harness
 ```
 
 Then fill in `CLAUDE.md` **from evidence in that repository** — stack from the manifest, commands
@@ -183,6 +200,7 @@ teaches the agent that guessing commands is acceptable.
 CLAUDE.md            always-loaded operating principles
 .claude/             agents, skills, permission policy (canonical definitions)
 docs/                design rationale — loaded on demand, not automatically
+personal-skills/     operator skills for adopting and auditing a harness
 templates/           starting points for projects, agents, and skills
 examples/            worked adoption walkthrough
 scripts/             dependency-free structural self-check

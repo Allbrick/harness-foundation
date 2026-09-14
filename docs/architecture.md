@@ -25,6 +25,9 @@ harness-foundation/
 │       ├── test/SKILL.md
 │       └── commit/SKILL.md
 ├── docs/                      design rationale (loaded on demand)
+├── personal-skills/           operator skills, installed to ~/.claude/skills
+│   ├── adopt-harness/         install + specialise a harness from repository evidence
+│   └── audit-harness/         detect repository/harness drift
 ├── templates/                 starting points for adopting projects
 ├── examples/                  worked adoption walkthrough
 └── scripts/validate-harness.sh   structural self-check
