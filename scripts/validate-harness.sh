@@ -152,6 +152,22 @@ for f in templates/*.md; do
 done
 
 echo
+echo "== translations =="
+# Two copies of the README will drift. This does not compare prose — it only catches the case where
+# one language gained or lost a section and the other did not.
+if [ -f README.ko.md ]; then
+  en_h=$(grep -c '^## ' README.md)
+  ko_h=$(grep -c '^## ' README.ko.md)
+  if [ "$en_h" -ne "$ko_h" ]; then
+    warn "README.md has $en_h sections but README.ko.md has $ko_h — the translations have drifted"
+  else
+    pass "README.md and README.ko.md have the same section structure ($en_h sections)"
+  fi
+  grep -q 'README.ko.md' README.md || warn "README.md does not link to README.ko.md"
+  grep -q 'README.md' README.ko.md || warn "README.ko.md does not link back to README.md"
+fi
+
+echo
 echo "== settings.json =="
 s=.claude/settings.json
 if [ -f "$s" ]; then

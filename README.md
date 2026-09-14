@@ -1,5 +1,7 @@
 # harness-foundation
 
+*English · [한국어](README.ko.md)*
+
 A reusable **harness** for AI coding agents: the operating principles, roles, procedures, and safety
 policy that make agent-assisted development repeatable across projects.
 
@@ -96,6 +98,9 @@ context is spent on what changes the current decision, not on everything that mi
 | [`implementer`](.claude/agents/implementer.md) | Executes an approved plan; tests; validates | Yes |
 | [`reviewer`](.claude/agents/reviewer.md) | Owns the merge verdict: delegates the generic pass, adds the project layer | No |
 | [`debugger`](.claude/agents/debugger.md) | Reproduction, evidence, hypothesis, root cause, minimal fix | No |
+
+`architect`, `reviewer`, and `debugger` having no editing tools is a **capability limit, not an
+instruction**. "Cannot" beats "should not".
 
 ### Skills — [`docs/skill-design.md`](docs/skill-design.md)
 
